@@ -1,0 +1,75 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const Header = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
+  const navigate = useNavigate();
+  const [activePage, setActivePage] = useState("formulario"); // Estado para alternar entre as telas
+
+  const handleNavigation = (page: string) => {
+    setActivePage(page);
+    if (page === "formulario") {
+      navigate("/processos");
+    } else if (page === "cadastrar") {
+      navigate("/cadastrar-usuario");
+    } else if (page === "tabela") {
+      navigate("/visualizar-tabela");
+    }
+  };
+
+  return (
+    <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
+      <div className="flex items-center space-x-4">
+        <h1 className="text-lg font-bold">
+          Painel do {user.role === "admin" ? "Administrador" : "Usuário"}
+        </h1>
+        {user.role === "admin" && (
+          <button
+            onClick={() => handleNavigation("formulario")}
+            className={`px-4 py-2 rounded transition ${
+              activePage === "formulario"
+                ? "bg-blue-800"
+                : "bg-blue-400 hover:bg-blue-500"
+            }`}
+          >
+            Formulário
+          </button>
+        )}
+      </div>
+      <div className="flex items-center space-x-4">
+        {user.role === "admin" && (
+          <>
+            <button
+              onClick={() => handleNavigation("cadastrar")}
+              className={`px-4 py-2 rounded transition ${
+                activePage === "cadastrar"
+                  ? "bg-blue-800"
+                  : "bg-blue-400 hover:bg-blue-500"
+              }`}
+            >
+              Cadastrar
+            </button>
+            <button
+              onClick={() => handleNavigation("tabela")}
+              className={`px-4 py-2 rounded transition ${
+                activePage === "tabela"
+                  ? "bg-blue-800"
+                  : "bg-blue-400 hover:bg-blue-500"
+              }`}
+            >
+              Visualizar Tabela
+            </button>
+          </>
+        )}
+        <span>{user.name}</span>
+        <button
+          onClick={onLogout}
+          className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition"
+        >
+          Sair
+        </button>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
