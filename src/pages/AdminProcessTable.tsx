@@ -11,7 +11,16 @@ interface ProcessData {
   valorTotal?: number;
   valorExecutado?: number;
   percentualExecucao?: number;
+  dataOrdemServico: string;
   dataRegistro: string;
+  dataPrazoFinal: string;
+  dataEmpenho: string;
+  numeroEmpenho: string;
+  tempoRestante: string;
+  nivelRisco: string;
+  probabilidade: string;
+  impacto: string;
+  userLocation: string;
 }
 
 const AdminProcessTable = () => {
@@ -56,41 +65,65 @@ const AdminProcessTable = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">ID</th>
-              <th className="px-4 py-2 border">Nome do Processo</th>
-              <th className="px-4 py-2 border">Objeto</th>
-              <th className="px-4 py-2 border">Tipo de Contrato</th>
-              <th className="px-4 py-2 border">Etapa Atual</th>
-              <th className="px-4 py-2 border">Escolas Impactadas</th>
-              <th className="px-4 py-2 border">Estudantes Impactados</th>
-              <th className="px-4 py-2 border">Valor Total</th>
-              <th className="px-4 py-2 border">Valor Executado</th>
-              <th className="px-4 py-2 border">Percentual Execução</th>
-              <th className="px-4 py-2 border">Data Registro</th>
+              <th className="px-6 py-3 border">ID</th>
+              <th className="px-6 py-3 border">Nome do Processo</th>
+              <th className="px-6 py-3 border">Objeto</th>
+              <th className="px-6 py-3 border">Tipo de Contrato</th>
+              <th className="px-6 py-3 border">Etapa Atual</th>
+              <th className="px-6 py-3 border">Escolas Impactadas</th>
+              <th className="px-6 py-3 border">Estudantes Impactados</th>
+              <th className="px-6 py-3 border">Valor Total</th>
+              <th className="px-6 py-3 border">Valor Executado</th>
+              <th className="px-6 py-3 border">Percentual Execução</th>
+              <th className="px-6 py-3 border">Data Ordem de Serviço</th>
+              <th className="px-6 py-3 border">Data Registro</th>
+              <th className="px-6 py-3 border">Data Prazo Final</th>
+              <th className="px-6 py-3 border">Data Empenho</th>
+              <th className="px-6 py-3 border">Numero Empenho</th>
+              <th className="px-6 py-3 border">Tempo Restante</th>
+              <th className="px-6 py-3 border">Nivel de Risco</th>
+              <th className="px-6 py-3 border">Probabilidade</th>
+              <th className="px-6 py-3 border">Impacto</th>
+              <th className="px-6 py-3 border">Local do Usuário</th>
             </tr>
           </thead>
           <tbody>
             {processes.map((process, index) => (
               <tr key={process.id || index} className="hover:bg-gray-100">
-                <td className="px-4 py-2 border">{process.id || "N/A"}</td>
-                <td className="px-4 py-2 border">{process.nomeProcesso || "N/A"}</td>
-                <td className="px-4 py-2 border">{process.objeto || "N/A"}</td>
-                <td className="px-4 py-2 border">{process.tipoContrato || "N/A"}</td>
-                <td className="px-4 py-2 border">{process.etapaAtual || "N/A"}</td>
-                <td className="px-4 py-2 border">{process.escolasImpactadas ?? "N/A"}</td>
-                <td className="px-4 py-2 border">{process.estudantesImpactados ?? "N/A"}</td>
-                <td className="px-4 py-2 border">
+                <td className="px-6 py-3 border">{process.id || "N/A"}</td>
+                <td className="px-6 py-3 border">{process.nomeProcesso || "N/A"}</td>
+                <td className="px-6 py-3 border">{process.objeto || "N/A"}</td>
+                <td className="px-6 py-3 border">{process.tipoContrato || "N/A"}</td>
+                <td className="px-6 py-3 border">{process.etapaAtual || "N/A"}</td>
+                <td className="px-6 py-3 border">{process.escolasImpactadas ?? "N/A"}</td>
+                <td className="px-6 py-3 border">{process.estudantesImpactados ?? "N/A"}</td>
+                <td className="px-6 py-3 border">
                   {process.valorTotal !== undefined ? `R$ ${process.valorTotal.toFixed(2)}` : "N/A"}
                 </td>
-                <td className="px-4 py-2 border">
+                <td className="px-6 py-3 border">
                   {process.valorExecutado !== undefined ? `R$ ${process.valorExecutado.toFixed(2)}` : "N/A"}
                 </td>
-                <td className="px-4 py-2 border">
+                <td className="px-6 py-3 border">
                   {process.percentualExecucao !== undefined ? `${process.percentualExecucao.toFixed(2)}%` : "N/A"}
                 </td>
-                <td className="px-4 py-2 border">
+                <td className="px-6 py-3 border">
+                  {process.dataOrdemServico ? new Date(process.dataOrdemServico).toLocaleDateString("pt-BR") : "-"}
+                </td>
+                <td className="px-6 py-3 border">
                   {process.dataRegistro ? new Date(process.dataRegistro).toLocaleDateString("pt-BR") : "-"}
                 </td>
+                <td className="px-6 py-3 border">
+                  {process.dataPrazoFinal ? new Date(process.dataPrazoFinal).toLocaleDateString("pt-BR") : "-"}
+                </td>
+                <td className="px-6 py-3 border">
+                  {process.dataEmpenho ? new Date(process.dataEmpenho).toLocaleDateString("pt-BR") : "-"}
+                </td>
+                <td className="px-6 py-3 border">{process.numeroEmpenho ?? "N/A"}</td>
+                <td className="px-6 py-3 border">{process.tempoRestante ?? "N/A"}</td>
+                <td className="px-6 py-3 border">{process.nivelRisco ?? "N/A"}</td>
+                <td className="px-6 py-3 border">{process.probabilidade ?? "N/A"}</td>
+                <td className="px-6 py-3 border">{process.impacto ?? "N/A"}</td>
+                <td className="px-6 py-3 border">{process.userLocation ?? "N/A"}</td>
               </tr>
             ))}
           </tbody>
