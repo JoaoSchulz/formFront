@@ -14,7 +14,7 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-    setIsLoading(true); // Ativa o estado de carregamento
+    setIsLoading(true);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
@@ -24,12 +24,8 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
       });
 
       if (!response.ok) {
-        let errorMessage = "Erro ao realizar login.";
-        if (response.status === 401) {
-          errorMessage = "Email ou senha inválidos.";
-        } else if (response.status === 500) {
-          errorMessage = "Erro interno do servidor. Tente novamente mais tarde.";
-        }
+        const errorData = await response.json();
+        const errorMessage = errorData.message || "Erro ao realizar login.";
         setError(errorMessage);
         return;
       }
@@ -48,7 +44,7 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
       console.error("Erro de conexão:", fetchError);
       setError("Erro de conexão com o servidor.");
     } finally {
-      setIsLoading(false); // Desativa o estado de carregamento
+      setIsLoading(false);
     }
   };
 
