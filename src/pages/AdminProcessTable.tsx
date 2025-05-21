@@ -42,7 +42,6 @@ const AdminProcessTable = () => {
         }
 
         const data = await response.json();
-        console.log("data:", data);
         const formattedData = data.map((item: any) => item.props);
         setProcesses(formattedData);
       } catch (err) {
