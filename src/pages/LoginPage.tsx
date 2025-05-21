@@ -7,7 +7,7 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Estado para controlar o carregamento
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
@@ -18,9 +18,15 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
 
     try {
       console.log("Iniciando requisição de login...");
+      console.log("URL da API:", `${process.env.REACT_APP_API_URL}/users/login`);
+      console.log("Dados enviados:", { email, password });
+
       const response = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
         body: JSON.stringify({ email, password }),
       });
 
@@ -28,9 +34,8 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        const errorMessage = errorData.message || "Erro ao realizar login.";
-        console.error("Erro na resposta:", errorMessage);
-        setError(errorMessage);
+        console.error("Erro na resposta:", errorData);
+        setError(errorData.message || "Erro ao realizar login.");
         return;
       }
 
@@ -65,7 +70,7 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
             <input
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -74,7 +79,7 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
             <input
               type="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -82,7 +87,7 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
           {success && <div className="text-green-500 text-sm">{success}</div>}
           <button
             type="submit"
-            disabled={isLoading} // Desabilita o botão enquanto está carregando
+            disabled={isLoading}
             className={`w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
