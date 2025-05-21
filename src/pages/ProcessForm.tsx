@@ -227,7 +227,7 @@ export default function ProcessForm() {
         // Get user information
         const userInfo = await getUserInfo();
 
-        const response = await fetch("http://localhost:8080/processos", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/processos`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
