@@ -31,7 +31,7 @@ const AdminProcessTable = () => {
   useEffect(() => {
     const fetchProcesses = async () => {
       try {
-        const response = await fetch("http://localhost:8080/processos");
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/processos`);
         if (!response.ok) {
           throw new Error("Erro ao buscar os dados dos processos.");
         }

@@ -35,7 +35,7 @@ const RegisterUser = () => {
       const yearOfBirth = new Date(birthDate).getFullYear();
       const password = `${surname}${yearOfBirth}`;
 
-      const response = await fetch("http://localhost:8080/users/register", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
