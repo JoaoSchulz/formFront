@@ -17,20 +17,26 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
     setIsLoading(true);
 
     try {
+      console.log("Iniciando requisição de login...");
       const response = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
+      console.log("Resposta recebida:", response);
+
       if (!response.ok) {
         const errorData = await response.json();
         const errorMessage = errorData.message || "Erro ao realizar login.";
+        console.error("Erro na resposta:", errorMessage);
         setError(errorMessage);
         return;
       }
 
       const data = await response.json();
+      console.log("Dados recebidos:", data);
+
       if (data.access_token && data.user) {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
@@ -45,6 +51,7 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
       setError("Erro de conexão com o servidor.");
     } finally {
       setIsLoading(false);
+      console.log("Requisição finalizada.");
     }
   };
 
