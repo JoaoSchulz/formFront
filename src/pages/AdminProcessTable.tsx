@@ -31,12 +31,18 @@ const AdminProcessTable = () => {
   useEffect(() => {
     const fetchProcesses = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/processos`);
+        const response = await fetch("http://localhost:8080/processos");
         if (!response.ok) {
           throw new Error("Erro ao buscar os dados dos processos.");
         }
-        const data = await response.json();
 
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Resposta da API não é um JSON válido.");
+        }
+
+        const data = await response.json();
+        console.log("data:", data);
         const formattedData = data.map((item: any) => item.props);
         setProcesses(formattedData);
       } catch (err) {
