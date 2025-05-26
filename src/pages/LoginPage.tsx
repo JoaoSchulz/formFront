@@ -40,8 +40,8 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
       if (data.access_token && data.user) {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        setUser(data.user); // Call the setUser function passed from App
-        navigate("/processos"); // Navigate to processos page
+        setUser(data.user); // Chama a função setUser passada pelo App
+        navigate("/processos"); // Navega para a página de processos
       } else {
         setError("Resposta do servidor inválida.");
       }

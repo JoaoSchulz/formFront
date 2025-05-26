@@ -42,6 +42,7 @@ const UsersTable = () => {
     for (let i = 0; i < 12; i++) {
       password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
+    console.log(password)
     return password;
   };
 
@@ -49,6 +50,7 @@ const UsersTable = () => {
     const newPassword = generateRandomPassword();
 
     try {
+      console.log('Enviando requisição para alterar senha:', { userId, newPassword });
       const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userId}`, {
         method: "PUT",
         headers: {
@@ -58,21 +60,16 @@ const UsersTable = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Erro ao alterar a senha do usuário.");
+        const errorData = await response.json();
+        console.error("Erro na resposta do backend:", errorData); // Log do erro do backend
+        throw new Error(errorData.message || "Erro ao alterar a senha do usuário.");
       }
 
-      // Copy the new password to the clipboard
+      console.log('Senha alterada com sucesso para o usuário:', userId);
       await navigator.clipboard.writeText(newPassword);
       toast.success("Nova senha copiada para o clipboard!");
-
-      // Optionally update the UI
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? { ...user, password: newPassword } : user
-        )
-      );
     } catch (err) {
-      console.error(err);
+      console.error("Erro ao alterar a senha do usuário:", err); // Log do erro no frontend
       toast.error("Erro ao alterar a senha do usuário.");
     }
   };

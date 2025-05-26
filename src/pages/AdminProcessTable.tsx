@@ -32,8 +32,20 @@ const AdminProcessTable = () => {
   useEffect(() => {
     const fetchProcesses = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/processos`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/processos`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
         if (!response.ok) {
+          if (response.status === 502) {
+            throw new Error("Erro 502: Bad Gateway. Verifique o servidor backend.");
+          }
+          if (response.status === 403 || response.status === 401) {
+            throw new Error("Erro de autenticação. Verifique suas credenciais.");
+          }
           throw new Error("Erro ao buscar os dados dos processos.");
         }
 
@@ -45,9 +57,9 @@ const AdminProcessTable = () => {
         const data = await response.json();
         const formattedData = data.map((item: any) => item.props);
         setProcesses(formattedData);
-      } catch (err) {
+      } catch (err: any) {
         console.error(err);
-        setError("Erro ao carregar os dados. Tente novamente mais tarde.");
+        setError(err.message || "Erro ao carregar os dados. Tente novamente mais tarde.");
       } finally {
         setIsLoading(false);
       }
