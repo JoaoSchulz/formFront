@@ -11,7 +11,7 @@ const Header = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
       navigate("/processos");
     } else if (page === "cadastrar") {
       navigate("/cadastrar-usuario");
-    } else if (page === "processos") {
+    } else if (page === "respostas") {
       navigate("/visualizar-processos");
     } else if (page === "usuarios") {
       navigate("/visualizar-usuarios");
@@ -51,16 +51,6 @@ const Header = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
               Cadastrar
             </button>
             <button
-              onClick={() => handleNavigation("processos")}
-              className={`px-4 py-2 rounded transition ${
-                activePage === "processos"
-                  ? "bg-blue-800"
-                  : "bg-blue-400 hover:bg-blue-500"
-              }`}
-            >
-              Visualizar Processos
-            </button>
-            <button
               onClick={() => handleNavigation("respostas")}
               className={`px-4 py-2 rounded transition ${
                 activePage === "respostas"
@@ -69,6 +59,16 @@ const Header = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
               }`}
             >
               Respostas Recebidas
+            </button>
+            <button
+              onClick={() => handleNavigation("usuarios")}
+              className={`px-4 py-2 rounded transition ${
+                activePage === "usuarios"
+                  ? "bg-blue-800"
+                  : "bg-blue-400 hover:bg-blue-500"
+              }`}
+            >
+              Visualizar Usuários
             </button>
           </>
         )}

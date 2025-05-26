@@ -54,9 +54,8 @@ function App() {
             <Routes>
               <Route path="/processos" element={<ProcessForm />} />
               <Route path="/cadastrar-usuario" element={<RegisterUser />} />
-              <Route path="/visualizar-processos" element={<AdminProcessTable />} />
-              <Route path="/visualizar-usuarios" element={<UsersTable />} />
-              <Route path="/respostas-recebidas" element={<AdminProcessTable />} />
+              <Route path="/visualizar-processos" element={<AdminProcessTable />} /> {/* Respostas Recebidas */}
+              <Route path="/visualizar-usuarios" element={<UsersTable />} /> {/* Visualizar Usuários */}
               <Route path="*" element={<Navigate to="/processos" />} />
             </Routes>
           </div>
