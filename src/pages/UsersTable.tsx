@@ -61,20 +61,21 @@ const UsersTable = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Erro na resposta do backend:", errorData); // Log do erro do backend
+        console.error("Erro na resposta do backend:", errorData);
+        toast.error(`Erro ao alterar a senha do usuário: ${errorData.message || "Erro desconhecido"}`);
         throw new Error(errorData.message || "Erro ao alterar a senha do usuário.");
       }
 
       console.log('Senha alterada com sucesso para o usuário:', userId);
       try {
         await navigator.clipboard.writeText(newPassword);
-        toast.success("Nova senha copiada para o clipboard!");
+        toast.success("Senha alterada com sucesso! Copiada para a área de transferência (Ctrl+V).");
       } catch (clipboardError) {
         console.error("Erro ao copiar para o clipboard:", clipboardError);
-        toast.error("Nova senha gerada, mas não foi possível copiar para o clipboard.");
+        toast.warn("Senha alterada com sucesso, mas não foi possível copiar para o clipboard.");
       }
     } catch (err) {
-      console.error("Erro ao alterar a senha do usuário:", err); // Log do erro no frontend
+      console.error("Erro ao alterar a senha do usuário:", err);
       toast.error("Erro ao alterar a senha do usuário.");
     }
   };

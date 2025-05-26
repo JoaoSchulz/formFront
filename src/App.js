@@ -6,6 +6,8 @@ import RegisterUser from './pages/RegisterUser.tsx';
 import AdminProcessTable from './pages/AdminProcessTable.tsx';
 import UsersTable from './pages/UsersTable.tsx';
 import Header from './components/Header.tsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -75,6 +77,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       )}
+      <ToastContainer />
     </div>
   );
 }
