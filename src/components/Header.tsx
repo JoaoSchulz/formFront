@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Header = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
   const navigate = useNavigate();
-  const [activePage, setActivePage] = useState("formulario"); // Estado para alternar entre as telas
+  const [activePage, setActivePage] = useState("respostas"); // Default to "Respostas Recebidas"
 
   const handleNavigation = (page: string) => {
     setActivePage(page);
