@@ -77,6 +77,30 @@ const UsersTable = () => {
     }
   };
 
+  const handleDeleteUser = async (userId: number) => {
+    if (!window.confirm("Tem certeza que deseja deletar este usuário?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao deletar o usuário.");
+      }
+
+      toast.success("Usuário deletado com sucesso!");
+
+      // Remove the user from the UI
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao deletar o usuário.");
+    }
+  };
+
   if (isLoading) {
     return <div className="text-center mt-10">Carregando...</div>;
   }
@@ -110,12 +134,18 @@ const UsersTable = () => {
                 <td className="px-6 py-3 border">
                   {new Date(user.createdAt).toLocaleDateString("pt-BR")}
                 </td>
-                <td className="px-6 py-3 border">
+                <td className="px-6 py-3 border flex space-x-2">
                   <button
                     onClick={() => handlePasswordChange(user.id)}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                   >
                     Alterar Senha
+                  </button>
+                  <button
+                    onClick={() => handleDeleteUser(user.id)}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                  >
+                    Deletar
                   </button>
                 </td>
               </tr>
