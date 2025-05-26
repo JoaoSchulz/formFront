@@ -134,16 +134,16 @@ const UsersTable = () => {
                 <td className="px-6 py-3 border">
                   {new Date(user.createdAt).toLocaleDateString("pt-BR")}
                 </td>
-                <td className="px-6 py-3 border flex space-x-2">
+                <td className="px-2 py-2 border flex justify-center items-center space-x-4">
                   <button
                     onClick={() => handlePasswordChange(user.id)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm"
                   >
                     Alterar Senha
                   </button>
                   <button
                     onClick={() => handleDeleteUser(user.id)}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                    className="px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm"
                   >
                     Deletar
                   </button>
