@@ -57,7 +57,56 @@ const AdminProcessTable = () => {
   }, []);
 
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(processes);
+    const headers = [
+      "ID",
+      "Nome do Processo",
+      "Objeto",
+      "Tipo de Contrato",
+      "Etapa Atual",
+      "Escolas Impactadas",
+      "Estudantes Impactados",
+      "Valor Total",
+      "Valor Executado",
+      "Percentual Execução",
+      "Data Ordem de Serviço",
+      "Data Registro",
+      "Data Prazo Final",
+      "Data Empenho",
+      "Numero Empenho",
+      "Tempo Restante",
+      "Nivel de Risco",
+      "Probabilidade",
+      "Impacto",
+      "Local do Usuário",
+    ];
+
+    const dataWithHeaders = [
+      headers,
+      ...processes.map((process) => [
+        process.id || "N/A",
+        process.nomeProcesso || "N/A",
+        process.objeto || "N/A",
+        process.tipoContrato || "N/A",
+        process.etapaAtual || "N/A",
+        process.escolasImpactadas ?? "N/A",
+        process.estudantesImpactados ?? "N/A",
+        process.valorTotal !== undefined ? `R$ ${process.valorTotal.toFixed(2)}` : "N/A",
+        process.valorExecutado !== undefined ? `R$ ${process.valorExecutado.toFixed(2)}` : "N/A",
+        process.percentualExecucao !== undefined ? `${process.percentualExecucao.toFixed(2)}%` : "N/A",
+        process.dataOrdemServico ? new Date(process.dataOrdemServico).toLocaleDateString("pt-BR") : "-",
+        process.dataRegistro ? new Date(process.dataRegistro).toLocaleDateString("pt-BR") : "-",
+        process.dataPrazoFinal ? new Date(process.dataPrazoFinal).toLocaleDateString("pt-BR") : "-",
+        process.dataEmpenho ? new Date(process.dataEmpenho).toLocaleDateString("pt-BR") : "-",
+        process.numeroEmpenho ?? "N/A",
+        process.tempoRestante ?? "N/A",
+        process.nivelRisco ?? "N/A",
+        process.probabilidade ?? "N/A",
+        process.impacto ?? "N/A",
+        process.userLocation ?? "N/A",
+      ]),
+    ];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(dataWithHeaders);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Respostas");
     XLSX.writeFile(workbook, "respostas_recebidas.xlsx");
