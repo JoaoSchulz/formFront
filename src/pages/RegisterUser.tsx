@@ -13,9 +13,19 @@ const RegisterUser = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
+  const capitalizeWords = (text: string) => {
+    return text
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "name" || name === "surname" ? capitalizeWords(value) : value,
+    }));
   };
 
   const handleRoleChange = (role: string) => {
@@ -48,7 +58,7 @@ const RegisterUser = () => {
 
       if (response.ok) {
         toast.success("Usuário cadastrado com sucesso!");
-        navigate("/processos"); 
+        navigate("/processos");
       } else {
         const errorData = await response.json();
         toast.error(`Erro ao cadastrar usuário: ${errorData.message || "Erro desconhecido"}`);

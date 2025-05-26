@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import * as XLSX from "xlsx";
 
 interface ProcessData {
   id: string;
@@ -55,6 +56,13 @@ const AdminProcessTable = () => {
     fetchProcesses();
   }, []);
 
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(processes);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Respostas");
+    XLSX.writeFile(workbook, "respostas_recebidas.xlsx");
+  };
+
   if (isLoading) {
     return <div className="text-center mt-10">Carregando...</div>;
   }
@@ -66,6 +74,14 @@ const AdminProcessTable = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6 text-center">Tabela de Processos</h1>
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={exportToExcel}
+          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+        >
+          Exportar tudo para Excel
+        </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300">
           <thead>

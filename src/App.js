@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'; // Adicione Navigate para redirecionamentos
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage.tsx';
 import ProcessForm from './pages/ProcessForm.tsx';
 import RegisterUser from './pages/RegisterUser.tsx';
 import AdminProcessTable from './pages/AdminProcessTable.tsx';
+import UsersTable from './pages/UsersTable.tsx';
 import Header from './components/Header.tsx';
 
 function App() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -34,6 +36,15 @@ function App() {
     setUser(null);
   };
 
+  const handleLogin = (user) => {
+    setUser(user);
+    if (user.role === "admin") {
+      navigate("/respostas-recebidas"); // Redirect admin to "Respostas Recebidas"
+    } else {
+      navigate("/processos"); // Redirect other users to "Processos"
+    }
+  };
+
   return (
     <div>
       {user ? (
@@ -43,15 +54,17 @@ function App() {
             <Routes>
               <Route path="/processos" element={<ProcessForm />} />
               <Route path="/cadastrar-usuario" element={<RegisterUser />} />
-              <Route path="/visualizar-tabela" element={<AdminProcessTable />} />
-              <Route path="*" element={<Navigate to="/processos" />} /> {/* Redireciona rotas inválidas */}
+              <Route path="/visualizar-processos" element={<AdminProcessTable />} />
+              <Route path="/visualizar-usuarios" element={<UsersTable />} />
+              <Route path="/respostas-recebidas" element={<AdminProcessTable />} />
+              <Route path="*" element={<Navigate to="/processos" />} />
             </Routes>
           </div>
         </div>
       ) : (
         <Routes>
-          <Route path="/" element={<LoginPage setUser={setUser} />} />
-          <Route path="*" element={<Navigate to="/" />} /> {/* Redireciona rotas inválidas */}
+          <Route path="/" element={<LoginPage setUser={handleLogin} />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       )}
     </div>

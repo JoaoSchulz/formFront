@@ -18,9 +18,6 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
 
     try {
       console.log("Iniciando requisição de login...");
-      console.log("URL da API:", `${process.env.REACT_APP_API_URL}/users/login`);
-      console.log("Dados enviados:", { email, password });
-
       const response = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
         method: "POST",
         headers: {
@@ -29,8 +26,6 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
         },
         body: JSON.stringify({ email, password }),
       });
-
-      console.log("Resposta recebida:", response);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -45,9 +40,8 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
       if (data.access_token && data.user) {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        setUser(data.user);
-        setSuccess("Login realizado com sucesso!");
-        navigate("/processos");
+        setUser(data.user); // Call the setUser function passed from App
+        navigate("/processos"); // Navigate to processos page
       } else {
         setError("Resposta do servidor inválida.");
       }
@@ -63,7 +57,7 @@ const LoginPage = ({ setUser }: { setUser: (user: any) => void }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-white">
       <div className="w-full max-w-lg mx-auto p-10 bg-white shadow-lg rounded-lg">
-        <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Articuladores RENAPETI</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700">Email:</label>
