@@ -18,10 +18,6 @@ function App() {
         const parsedUser = JSON.parse(storedUser);
         if (parsedUser && typeof parsedUser === 'object') {
           setUser(parsedUser);
-          // Redirect admin users to "Respostas Recebidas" on initial load
-          if (parsedUser.role === "admin") {
-            navigate("/visualizar-processos");
-          }
         } else {
           console.error("Conteúdo inválido para 'user' no localStorage:", storedUser);
           localStorage.removeItem('user');
@@ -32,7 +28,7 @@ function App() {
         localStorage.removeItem('user');
       }
     }
-  }, [navigate]);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
@@ -43,7 +39,7 @@ function App() {
   const handleLogin = (user) => {
     setUser(user);
     if (user.role === "admin") {
-      navigate("/visualizar-processos"); // Redirect admin to "Respostas Recebidas"
+      navigate("/visualizar-processos"); // Redirect admin to "Respostas Recebidas" after login
     } else {
       navigate("/processos"); // Redirect other users to "Processos"
     }
@@ -60,7 +56,16 @@ function App() {
               <Route path="/cadastrar-usuario" element={<RegisterUser />} />
               <Route path="/visualizar-processos" element={<AdminProcessTable />} /> {/* Respostas Recebidas */}
               <Route path="/visualizar-usuarios" element={<UsersTable />} /> {/* Visualizar Usuários */}
-              <Route path="*" element={<Navigate to="/visualizar-processos" />} />
+              <Route
+                path="*"
+                element={
+                  user.role === "admin" ? (
+                    <Navigate to="/visualizar-processos" replace />
+                  ) : (
+                    <Navigate to="/processos" replace />
+                  )
+                }
+              />
             </Routes>
           </div>
         </div>
