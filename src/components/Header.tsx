@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Header = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState("respostas"); // Default to "Respostas Recebidas"
-
+//console.log
   const handleNavigation = (page: string) => {
     setActivePage(page);
     if (page === "formulario") {
