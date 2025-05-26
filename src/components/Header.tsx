@@ -22,7 +22,7 @@ const Header = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
     <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
       <div className="flex items-center space-x-4">
         <h1 className="text-lg font-bold">
-          Articuladores RENAPETI - Painel do {user.role === "admin" ? "Administrador" : "Usuário"}
+          Painel do {user.role === "admin" ? "Administrador" : "Usuário"}
         </h1>
         {user.role === "admin" && (
           <button
