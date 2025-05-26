@@ -18,6 +18,10 @@ function App() {
         const parsedUser = JSON.parse(storedUser);
         if (parsedUser && typeof parsedUser === 'object') {
           setUser(parsedUser);
+          // Redirect admin users to "Respostas Recebidas" on initial load
+          if (parsedUser.role === "admin") {
+            navigate("/visualizar-processos");
+          }
         } else {
           console.error("Conteúdo inválido para 'user' no localStorage:", storedUser);
           localStorage.removeItem('user');
@@ -28,7 +32,7 @@ function App() {
         localStorage.removeItem('user');
       }
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
@@ -39,7 +43,7 @@ function App() {
   const handleLogin = (user) => {
     setUser(user);
     if (user.role === "admin") {
-      navigate("/respostas-recebidas"); // Redirect admin to "Respostas Recebidas"
+      navigate("/visualizar-processos"); // Redirect admin to "Respostas Recebidas"
     } else {
       navigate("/processos"); // Redirect other users to "Processos"
     }
