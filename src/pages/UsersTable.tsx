@@ -66,8 +66,13 @@ const UsersTable = () => {
       }
 
       console.log('Senha alterada com sucesso para o usuário:', userId);
-      await navigator.clipboard.writeText(newPassword);
-      toast.success("Nova senha copiada para o clipboard!");
+      try {
+        await navigator.clipboard.writeText(newPassword);
+        toast.success("Nova senha copiada para o clipboard!");
+      } catch (clipboardError) {
+        console.error("Erro ao copiar para o clipboard:", clipboardError);
+        toast.error("Nova senha gerada, mas não foi possível copiar para o clipboard.");
+      }
     } catch (err) {
       console.error("Erro ao alterar a senha do usuário:", err); // Log do erro no frontend
       toast.error("Erro ao alterar a senha do usuário.");
